@@ -1,27 +1,25 @@
-import React from 'react';
-import {Button} from 'react-native';
-import {Colors, View} from 'react-native-ui-lib';
+import React, {useEffect} from 'react';
+import {Colors} from 'react-native-ui-lib';
 import {Appearance} from 'react-native';
 import {theme} from './src/setup/theme';
-import {Test} from './src/pages';
+import {NavigationContainer} from '@react-navigation/native';
+import {SafeAreaProvider} from 'react-native-safe-area-context';
+import AppNavigator from './src/setup/navigation/AppNavigator';
 
 function App(): JSX.Element {
+  // Theme setup
   Colors.loadSchemes(theme.colors);
 
+  useEffect(() => {
+    Appearance.setColorScheme('dark');
+  }, []);
+
   return (
-    <View flex center bg-surface100>
-      <View center flex row>
-        <Button
-          title="light"
-          onPress={() => Appearance.setColorScheme('light')}
-        />
-        <Button
-          title="dark"
-          onPress={() => Appearance.setColorScheme('dark')}
-        />
-      </View>
-      <Test />
-    </View>
+    <NavigationContainer>
+      <SafeAreaProvider>
+        <AppNavigator />
+      </SafeAreaProvider>
+    </NavigationContainer>
   );
 }
 
