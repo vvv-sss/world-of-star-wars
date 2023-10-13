@@ -489,6 +489,8 @@ PODS:
     - React-perflogger (= 0.72.6)
   - ReactNativeUiLib (4.1.1):
     - React
+  - RNFlashList (1.6.1):
+    - React-Core
   - RNGestureHandler (2.13.2):
     - React-Core
   - RNReanimated (3.5.4):
@@ -593,6 +595,7 @@ DEPENDENCIES:
   - React-utils (from `../node_modules/react-native/ReactCommon/react/utils`)
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
   - ReactNativeUiLib (from `../node_modules/react-native-ui-lib`)
+  - "RNFlashList (from `../node_modules/@shopify/flash-list`)"
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - RNReanimated (from `../node_modules/react-native-reanimated`)
   - RNScreens (from `../node_modules/react-native-screens`)
@@ -697,6 +700,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon"
   ReactNativeUiLib:
     :path: "../node_modules/react-native-ui-lib"
+  RNFlashList:
+    :path: "../node_modules/@shopify/flash-list"
   RNGestureHandler:
     :path: "../node_modules/react-native-gesture-handler"
   RNReanimated:
@@ -759,6 +764,7 @@ SPEC CHECKSUMS:
   React-utils: fa59c9a3375fb6f4aeb66714fd3f7f76b43a9f16
   ReactCommon: dd03c17275c200496f346af93a7b94c53f3093a4
   ReactNativeUiLib: 18c6c7cae814e9fb4442b6d9a5fb6f50ae36da98
+  RNFlashList: 236646d48f224a034f35baa0242e1b77db063b1e
   RNGestureHandler: bb86e378287f7713baf3ca205423eb8109790022
   RNReanimated: ab2e96c6d5591c3dfbb38a464f54c8d17fb34a87
   RNScreens: 85d3880b52d34db7b8eeebe2f1a0e807c05e69fa

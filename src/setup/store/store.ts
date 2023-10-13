@@ -7,7 +7,7 @@ type FullModel = ExtraModelsFromLoading<RootModel>;
 
 export const store = init<RootModel, FullModel>({
   models,
-  plugins: [loadingPlugin(), immerPlugin()],
+  plugins: [loadingPlugin()],
 });
 
 export type Store = typeof store;

@@ -1,10 +1,10 @@
 import {Models} from '@rematch/core';
-// import {auth} from './auth';
+import {people} from './people';
 
 export interface RootModel extends Models<RootModel> {
-//   auth: typeof auth;
+  people: typeof people;
 }
 
 export const models: RootModel = {
-//   auth,
+  people,
 };

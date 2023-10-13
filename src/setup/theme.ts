@@ -1,7 +1,9 @@
 import {Schemes} from 'react-native-ui-lib';
+import {Dictionary} from 'react-native-ui-lib/src/typings/common';
 
 type Theme = {
   colors: Schemes;
+  spacings: Dictionary<number>;
 };
 
 export const theme: Theme = {
@@ -34,5 +36,17 @@ export const theme: Theme = {
       surface500: '#d4d2cf',
       surface600: '#ebe9e6',
     },
+  },
+  spacings: {
+    s1: 4,
+    s2: 8,
+    s3: 12,
+    s4: 16,
+    s5: 20,
+    s6: 24,
+    s7: 32,
+    s8: 40,
+    s9: 50,
+    s10: 60,
   },
 };

@@ -1,4 +1,5 @@
 import {AxiosRequestConfig} from 'axios';
+import {People} from './data';
 
 type GetRequestPayload = {
   url: string;
@@ -6,4 +7,11 @@ type GetRequestPayload = {
   errorMessage?: string;
 };
 
-export type {GetRequestPayload};
+type PeopleResponse = {
+  count: number;
+  next: string | null;
+  previous: string | null;
+  results: People[];
+};
+
+export type {GetRequestPayload, PeopleResponse};
