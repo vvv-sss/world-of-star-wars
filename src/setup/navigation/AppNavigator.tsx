@@ -1,8 +1,8 @@
 import * as React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {FavouritesScreen, HomeScreen, SearchScreen} from '../../screens';
-import {AppNavigatorParamList} from '../../types/navigation';
 import {Colors} from 'react-native-ui-lib';
+import {AppNavigatorParamList} from '../../types';
 
 const Tab = createBottomTabNavigator<AppNavigatorParamList>();
 
