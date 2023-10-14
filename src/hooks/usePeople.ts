@@ -17,5 +17,23 @@ export const usePeople = () => {
     dispatch.people.getPeople({url: PEOPLE_URL.PEOPLE});
   };
 
-  return {getPeople, people, count, isLoading, error};
+  const getNextPage = () => {
+    //@ts-ignore
+    dispatch.people.getNextPage();
+  };
+
+  const getPreviousPage = () => {
+    //@ts-ignore
+    dispatch.people.getPreviousPage();
+  };
+
+  return {
+    getPeople,
+    getNextPage,
+    getPreviousPage,
+    people,
+    count,
+    isLoading,
+    error,
+  };
 };

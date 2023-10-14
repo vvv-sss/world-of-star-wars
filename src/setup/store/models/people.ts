@@ -1,10 +1,16 @@
 import {createModel} from '@rematch/core';
 import {getRequest} from '../../api/services';
-import {GetRequestPayload, People, PeopleResponse} from '../../../types';
+import {
+  GetRequestPayload,
+  People,
+  PeopleRecord,
+  PeopleResponse,
+} from '../../../types';
 import {RootModel} from '.';
+import {convertArrayToKeyedObject} from '../../../utils';
 
 type PeopleState = {
-  people: People[];
+  people: PeopleRecord | null;
   count: number | null;
   nextPage: string | null;
   previousPage: string | null;
@@ -12,7 +18,7 @@ type PeopleState = {
 };
 
 const initialState: PeopleState = {
-  people: [],
+  people: null,
   count: null,
   nextPage: null,
   previousPage: null,
@@ -25,7 +31,7 @@ export const people = createModel<RootModel>()({
     setDefaultState() {
       return initialState;
     },
-    setPeople(state, payload: People[]) {
+    setPeople(state, payload: PeopleRecord) {
       return {
         ...state,
         people: payload,
@@ -75,10 +81,30 @@ export const people = createModel<RootModel>()({
 
       const {results, count, next, previous} = response.data;
 
-      dispatch.people.setPeople(results);
+      const keyedPeople = convertArrayToKeyedObject<People>(results);
+
+      dispatch.people.setPeople(keyedPeople);
       dispatch.people.setCount(count);
       dispatch.people.setNextPage(next);
       dispatch.people.setPreviousPage(previous);
+    },
+    async getNextPage(_, store) {
+      const {nextPage} = store.people;
+
+      if (!nextPage) {
+        return;
+      }
+
+      dispatch.people.getPeople({url: nextPage});
+    },
+    async getPreviousPage(_, store) {
+      const {previousPage} = store.people;
+
+      if (!previousPage) {
+        return;
+      }
+
+      dispatch.people.getPeople({url: previousPage});
     },
   }),
 });

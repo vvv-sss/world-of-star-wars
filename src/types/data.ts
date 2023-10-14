@@ -17,6 +17,8 @@ type People = {
   vehicles: string[] | Vehicle[];
 };
 
+type PeopleRecord = Record<string, People>;
+
 type Film = {
   characters: string[] | People[];
   created: Date;
@@ -109,4 +111,4 @@ type Vehicle = {
   vehicle_class: string;
 };
 
-export type {People, Film, Planet, Specie, Starship, Vehicle};
+export type {People, PeopleRecord, Film, Planet, Specie, Starship, Vehicle};

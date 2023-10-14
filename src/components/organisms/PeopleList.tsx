@@ -1,40 +1,73 @@
 import React, {useContext} from 'react';
-import {Colors, Text, View} from 'react-native-ui-lib';
+import {Colors, Spacings, Text, View} from 'react-native-ui-lib';
 import {FlashList} from '@shopify/flash-list';
 import {StyleSheet, TouchableOpacity} from 'react-native';
 import {HomeContext} from '../../screens/HomeScreen';
+import {extractNumberFromUrl} from '../../utils';
+import {FontIcon} from '../atoms';
 
 const PeopleList: React.FC = () => {
   const data = useContext(HomeContext);
 
-  const {people, count, handleCharNamePress} = data || {};
+  const {
+    people,
+    favourites,
+    count,
+    handleListItemNamePress,
+    handleListItemHeartIconPress,
+    handleNextPress,
+    handlePreviousPress,
+  } = data || {};
 
-  const renderListHeader = () => {
-    return <View right>{count && <Text>Total: {count}</Text>}</View>;
+  const renderHeader = () => {
+    return (
+      <View flex paddingH-s4 marginT-s2>
+        {count && <Text>from {count}</Text>}
+        <View row spread>
+          <TouchableOpacity onPress={handlePreviousPress}>
+            <Text>Previous</Text>
+          </TouchableOpacity>
+          <TouchableOpacity marginL-s2 onPress={handleNextPress}>
+            <Text>Next</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+    );
   };
 
   return (
     <FlashList
+      ListHeaderComponent={renderHeader}
       data={people}
-      keyExtractor={(item, index) => `${item.created}-${index}`}
-      renderItem={({item, index}) => {
+      keyExtractor={item => item.url}
+      renderItem={({item}) => {
+        let isFavorite = false;
+
+        if (favourites) {
+          isFavorite = favourites[item.url] ? true : false;
+        }
+
         return (
           <View style={styles.itemContainer}>
-            <Text marginR-s3>{index}</Text>
             <TouchableOpacity
               style={styles.itemNameContainer}
-              onPress={() => handleCharNamePress?.(item.url)}>
-              <Text marginR-s3>{item.name}</Text>
-              <Text>^^</Text>
+              onPress={() => handleListItemNamePress?.(item)}>
+              <Text text40T marginR-s3>
+                {item.name}
+              </Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.heartIconContainer}>
-              <Text>Hi</Text>
+            <TouchableOpacity
+              style={styles.heartIconContainer}
+              onPress={() => handleListItemHeartIconPress?.(item)}>
+              <FontIcon
+                name={isFavorite ? 'heart-filled' : 'heart-stroked'}
+                size={24}
+              />
             </TouchableOpacity>
           </View>
         );
       }}
       estimatedItemSize={100}
-      ListHeaderComponent={renderListHeader}
     />
   );
 };
@@ -44,6 +77,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+    paddingHorizontal: Spacings.s4,
+    marginBottom: Spacings.s2,
     borderBottomWidth: 1,
     borderBottomColor: Colors.surface600,
   },

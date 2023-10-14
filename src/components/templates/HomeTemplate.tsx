@@ -12,8 +12,13 @@ const HomeTemplate: React.FC = () => {
 
   return (
     <View flex bg-surface100 useSafeArea>
-      {isLoading && <Text>Loading...</Text>}
-      <PeopleList />
+      <View flex>
+        <Text>Hello</Text>
+      </View>
+      <View flex>
+        {isLoading && <Text>Loading...</Text>}
+        <PeopleList />
+      </View>
     </View>
   );
 };
