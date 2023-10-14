@@ -1,23 +1,24 @@
 import * as React from 'react';
-import {Colors, View} from 'react-native-ui-lib';
+import {Colors, Spacings, View} from 'react-native-ui-lib';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {StyleSheet} from 'react-native';
-import {AppNavigatorParamList} from '../../types';
+import {BottomNavigatorParamList} from '../../types';
 import {FavouritesScreen, HomeScreen, SearchScreen} from '../../screens';
 import {FontIcon} from '../../components/atoms';
 
-const Tab = createBottomTabNavigator<AppNavigatorParamList>();
+const Tab = createBottomTabNavigator<BottomNavigatorParamList>();
 
 type IconItem = {
   name: string;
   color: string;
   size: number;
   focused: boolean;
+  iconContainerStyle?: {};
 };
 
-const AppNavigator: React.FC = () => {
+const BottomNavigator: React.FC = () => {
   const renderIcon = (data: IconItem) => {
-    const {name, color, size, focused} = data;
+    const {name, color, size, iconContainerStyle, focused} = data;
 
     return (
       <View
@@ -26,7 +27,9 @@ const AppNavigator: React.FC = () => {
           // eslint-disable-next-line react-native/no-inline-styles
           {borderColor: focused ? Colors.surface600 : 'transparent'},
         ]}>
-        <FontIcon name={name} color={color} size={size} />
+        <View style={iconContainerStyle}>
+          <FontIcon name={name} color={color} size={size} />
+        </View>
       </View>
     );
   };
@@ -69,7 +72,13 @@ const AppNavigator: React.FC = () => {
         component={FavouritesScreen}
         options={{
           tabBarIcon: ({color, size, focused}) =>
-            renderIcon({name: 'favorites-1', color, size: 50, focused}),
+            renderIcon({
+              name: 'favorites-1',
+              color,
+              size: 45,
+              focused,
+              iconContainerStyle: styles.favoriteIconContainer,
+            }),
         }}
       />
     </Tab.Navigator>
@@ -78,13 +87,19 @@ const AppNavigator: React.FC = () => {
 
 const styles = StyleSheet.create({
   iconContainer: {
-    width: 50,
+    width: 30,
     height: 50,
-    borderRadius: 25,
-    borderWidth: 1,
-    justifyContent: 'center',
     alignItems: 'center',
+    justifyContent: 'center',
+    paddingBottom: Spacings.s1,
+    borderBottomWidth: 1,
+    marginBottom: Spacings.s3,
+  },
+  favoriteIconContainer: {
+    position: 'absolute',
+    top: 2,
+    left: -3,
   },
 });
 
-export default AppNavigator;
+export default BottomNavigator;

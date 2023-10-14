@@ -11,15 +11,13 @@ type Props = {
 const LoadingView: React.FC<Props> = ({marginL, marginR, marginT, marginB}) => {
   return (
     <View
-      paddingH-s1
-      bg-surface400
       style={{
         marginLeft: marginL,
         marginRight: marginR,
         marginTop: marginT,
         marginBottom: marginB,
       }}>
-      <Text text90 surface100>
+      <Text text90 surface600>
         Loading...
       </Text>
     </View>

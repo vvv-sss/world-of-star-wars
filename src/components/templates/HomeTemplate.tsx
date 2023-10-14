@@ -1,6 +1,6 @@
 import React from 'react';
-import {View, Text, Spacings, Colors} from 'react-native-ui-lib';
-import {StyleSheet, TouchableOpacity} from 'react-native';
+import {View, Text, Spacings} from 'react-native-ui-lib';
+import {StyleSheet} from 'react-native';
 import {useContext} from 'react';
 import {HomeContext} from '../../screens/HomeScreen';
 import {PeopleList} from '../organisms';
@@ -8,16 +8,16 @@ import {Button} from '../molecules';
 import {ErrorView, LoadingView} from '../atoms';
 
 const HomeTemplate: React.FC = () => {
-  const data = useContext(HomeContext);
+  const value = useContext(HomeContext);
 
   const {
-    count,
+    totalCount,
     isLoading,
     error,
     handlePreviousPress,
     handleNextPress,
     handleRetryPress,
-  } = data || {};
+  } = value || {};
 
   return (
     <View flex bg-surface100 useSafeArea>
@@ -25,7 +25,7 @@ const HomeTemplate: React.FC = () => {
         <View flex />
         <View style={styles.titleContainer}>
           <Text text40 style={styles.title}>
-            You've got a whopping {count} movie characters to check out.
+            You've got a whopping {totalCount} movie characters to check out.
           </Text>
         </View>
         <View row centerV paddingH-s4 marginB-s4>

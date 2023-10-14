@@ -1,25 +1,36 @@
 import {createModel} from '@rematch/core';
 import {getRequest} from '../../api/services';
 import {
+  Film,
   GetRequestPayload,
   People,
   PeopleRecord,
   PeopleResponse,
+  Planet,
+  Specie,
+  Starship,
+  Vehicle,
 } from '../../../types';
 import {RootModel} from '.';
-import {convertArrayToKeyedObject} from '../../../utils';
+import {
+  checkArrayForStrings,
+  convertArrayToKeyedObject,
+  fetchAllSettled,
+  getNamesOfTruthyItems,
+  getTitlesOfTruthyItems,
+} from '../../../utils';
 
 type PeopleState = {
-  people: PeopleRecord | null;
-  count: number | null;
+  data: PeopleRecord | null;
+  totalCount: number | null;
   nextPage: string | null;
   previousPage: string | null;
   error: string | null;
 };
 
 const initialState: PeopleState = {
-  people: null,
-  count: null,
+  data: null,
+  totalCount: null,
   nextPage: null,
   previousPage: null,
   error: null,
@@ -31,16 +42,16 @@ export const people = createModel<RootModel>()({
     setDefaultState() {
       return initialState;
     },
-    setPeople(state, payload: PeopleRecord) {
+    setData(state, payload: PeopleRecord) {
       return {
         ...state,
-        people: payload,
+        data: payload,
       };
     },
-    setCount(state, payload: number) {
+    setTotalCount(state, payload: number) {
       return {
         ...state,
-        count: payload,
+        totalCount: payload,
       };
     },
     setNextPage(state, payload: string | null) {
@@ -83,8 +94,8 @@ export const people = createModel<RootModel>()({
 
       const keyedPeople = convertArrayToKeyedObject<People>(results);
 
-      dispatch.people.setPeople(keyedPeople);
-      dispatch.people.setCount(count);
+      dispatch.people.setData(keyedPeople);
+      dispatch.people.setTotalCount(count);
       dispatch.people.setNextPage(next);
       dispatch.people.setPreviousPage(previous);
     },
@@ -105,6 +116,76 @@ export const people = createModel<RootModel>()({
       }
 
       dispatch.people.getPeople({url: previousPage});
+    },
+    async expandPeopleItem(payload: People): Promise<People> {
+      const {homeworld, films, species, starships, vehicles} = payload;
+
+      let homeworldName: string = 'Unknown';
+
+      if (typeof homeworld === 'string') {
+        const homeworldResponse = await getRequest<Planet>({url: homeworld});
+
+        if ('data' in homeworldResponse) {
+          homeworldName = homeworldResponse.data.name;
+        }
+      }
+
+      let filmNames: string[] = [];
+
+      if (checkArrayForStrings(films)) {
+        const filmResults = await fetchAllSettled<Film>(films as string[]);
+
+        const filmNamesArray = getTitlesOfTruthyItems<Film>(filmResults);
+
+        filmNames = filmNamesArray;
+      }
+
+      let specieNames: string[] = [];
+
+      if (checkArrayForStrings(species)) {
+        const specieResults = await fetchAllSettled<Specie>(
+          species as string[],
+        );
+
+        const specieNamesArray = getNamesOfTruthyItems<Specie>(specieResults);
+
+        specieNames = specieNamesArray;
+      }
+
+      let starshipNames: string[] = [];
+
+      if (checkArrayForStrings(starships)) {
+        const starshipResults = await fetchAllSettled<Starship>(
+          starships as string[],
+        );
+
+        const starshipNamesArray =
+          getNamesOfTruthyItems<Starship>(starshipResults);
+
+        starshipNames = starshipNamesArray;
+      }
+
+      let vehicleNames: string[] = [];
+
+      if (checkArrayForStrings(vehicles)) {
+        const vehicleResults = await fetchAllSettled<Vehicle>(
+          vehicles as string[],
+        );
+
+        const vehicleNamesArray =
+          getNamesOfTruthyItems<Vehicle>(vehicleResults);
+
+        vehicleNames = vehicleNamesArray;
+      }
+
+      return {
+        ...payload,
+        homeworld: homeworldName,
+        films: filmNames,
+        species: specieNames,
+        starships: starshipNames,
+        vehicles: vehicleNames,
+      };
     },
   }),
 });

@@ -7,14 +7,14 @@ import {FontIcon} from '../atoms';
 import {HomeContext} from '../../screens/HomeScreen';
 
 const PeopleList: React.FC = () => {
-  const data = useContext(HomeContext);
+  const value = useContext(HomeContext);
 
   const {
     people,
     favourites,
     handleListItemNamePress,
     handleListItemHeartIconPress,
-  } = data || {};
+  } = value || {};
 
   return (
     <FlashList
@@ -58,6 +58,7 @@ const PeopleList: React.FC = () => {
         );
       }}
       estimatedItemSize={100}
+      showsVerticalScrollIndicator={false}
     />
   );
 };

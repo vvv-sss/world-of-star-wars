@@ -1,13 +1,17 @@
 import React, {useEffect} from 'react';
 import {HomeTemplate} from '../components/templates';
-import {useFavourites, usePeople} from '../hooks';
+import {useFavourites} from '../hooks';
 import {createContext} from 'react';
 import {People, PeopleRecord} from '../types';
+import {useNavigation} from '@react-navigation/native';
+import {Dispatch, RootState} from '../setup/store/store';
+import {useDispatch, useSelector} from 'react-redux';
+import {PEOPLE_URL} from '../setup/api/url';
 
 type HomeContextValue = {
   people: People[];
   favourites: PeopleRecord;
-  count: number | null;
+  totalCount: number | null;
   isLoading: boolean;
   error: string | null;
   handleListItemNamePress: (item: People) => void;
@@ -20,37 +24,51 @@ type HomeContextValue = {
 export const HomeContext = createContext<HomeContextValue | null>(null);
 
 const HomeScreen: React.FC = () => {
-  const {
-    getPeople,
-    getNextPage,
-    getPreviousPage,
-    people,
-    count,
-    isLoading,
-    error,
-  } = usePeople();
-
   const {favourites, handleFavourite} = useFavourites();
 
+  const navigation = useNavigation();
+
+  const {data, totalCount, error} = useSelector(
+    (state: RootState) => state.people,
+  );
+
+  const isLoading = useSelector(
+    (state: RootState) => state.loading.models.people,
+  );
+
+  const dispatch = useDispatch<Dispatch>();
+
   useEffect(() => {
-    if (!people) {
+    if (!data) {
       getPeople();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const handleListItemNamePress = (item: People) => {};
+  const getPeople = () => {
+    dispatch.people.getPeople({url: PEOPLE_URL.PEOPLE});
+  };
+
+  const handleListItemNamePress = (item: People) => {
+    navigation.navigate('DetailsScreen', {item});
+  };
 
   const value = {
-    people: Object.values(people ?? {}),
+    people: Object.values(data ?? {}),
     favourites: favourites ?? {},
-    count,
+    totalCount,
     isLoading,
     error,
     handleListItemNamePress,
     handleListItemHeartIconPress: handleFavourite,
-    handleNextPress: getNextPage,
-    handlePreviousPress: getPreviousPage,
+    handleNextPress: () => {
+      // @ts-ignore
+      dispatch.people.getNextPage();
+    },
+    handlePreviousPress: () => {
+      // @ts-ignore
+      dispatch.people.getPreviousPage();
+    },
     handleRetryPress: getPeople,
   };
 
