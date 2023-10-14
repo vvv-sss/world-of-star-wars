@@ -75,7 +75,7 @@ export const people = createModel<RootModel>()({
       const response = await getRequest<PeopleResponse>(payload);
 
       if ('error' in response) {
-        dispatch.people.setError(response.error);
+        dispatch.people.setError('Something went wrong...');
         return;
       }
 

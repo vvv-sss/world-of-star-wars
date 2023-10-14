@@ -61,7 +61,7 @@ const AppNavigator: React.FC = () => {
         component={SearchScreen}
         options={{
           tabBarIcon: ({color, size, focused}) =>
-            renderIcon({name: 'home', color, size, focused}),
+            renderIcon({name: 'search', color, size: 30, focused}),
         }}
       />
       <Tab.Screen
@@ -69,7 +69,7 @@ const AppNavigator: React.FC = () => {
         component={FavouritesScreen}
         options={{
           tabBarIcon: ({color, size, focused}) =>
-            renderIcon({name: 'home', color, size, focused}),
+            renderIcon({name: 'favorites-1', color, size: 50, focused}),
         }}
       />
     </Tab.Navigator>

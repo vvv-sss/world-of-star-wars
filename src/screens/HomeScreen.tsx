@@ -14,6 +14,7 @@ type HomeContextValue = {
   handleListItemHeartIconPress: (item: People) => void;
   handleNextPress: () => void;
   handlePreviousPress: () => void;
+  handleRetryPress: () => void;
 };
 
 export const HomeContext = createContext<HomeContextValue | null>(null);
@@ -50,6 +51,7 @@ const HomeScreen: React.FC = () => {
     handleListItemHeartIconPress: handleFavourite,
     handleNextPress: getNextPage,
     handlePreviousPress: getPreviousPage,
+    handleRetryPress: getPeople,
   };
 
   return (
