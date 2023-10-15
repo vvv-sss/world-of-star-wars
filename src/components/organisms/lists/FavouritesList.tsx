@@ -24,7 +24,11 @@ const FavouritesList: React.FC = () => {
               title={item.name}
               icon={
                 // XXX add cross icon
-                <FontIcon name="arrow-up" size={24} color={Colors.surface600} />
+                <FontIcon
+                  name="arrow-right"
+                  size={24}
+                  color={Colors.cashmere200}
+                />
               }
               handleTitlePress={handleListItemNamePress}
               handleIconPress={handleListItemIconPress}
@@ -34,7 +38,7 @@ const FavouritesList: React.FC = () => {
                 <View
                   width="100%"
                   height={1}
-                  backgroundColor={Colors.rgba(Colors.surface600, 0.25)}
+                  backgroundColor={Colors.rgba(Colors.bluewood400, 0.25)}
                   marginB-s2
                 />
               )}

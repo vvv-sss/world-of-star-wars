@@ -1,7 +1,6 @@
 import * as React from 'react';
-import {Colors, Spacings, View} from 'react-native-ui-lib';
+import {Colors} from 'react-native-ui-lib';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {StyleSheet} from 'react-native';
 import {BottomNavigatorParamList} from '../../types';
 import {FavouritesScreen, HomeScreen, SearchScreen} from '../../screens';
 import {FontIcon} from '../../components/atoms';
@@ -20,29 +19,26 @@ const BottomNavigator: React.FC = () => {
     const {name, color, size, focused} = data;
 
     return (
-      <View
-        style={[
-          styles.iconContainer,
-          // eslint-disable-next-line react-native/no-inline-styles
-          {borderColor: focused ? Colors.surface600 : 'transparent'},
-        ]}>
-        <FontIcon name={name} color={color} size={size} />
-      </View>
+      <FontIcon
+        name={name}
+        color={focused ? color : Colors.bluewood400}
+        size={size}
+      />
     );
   };
 
   return (
     <Tab.Navigator
       screenOptions={{
-        tabBarInactiveBackgroundColor: Colors.surface100,
-        tabBarInactiveTintColor: Colors.surface600,
-        tabBarActiveTintColor: Colors.surface600,
+        tabBarInactiveBackgroundColor: Colors.bluewood100,
+        tabBarInactiveTintColor: Colors.cashmere300,
+        tabBarActiveTintColor: Colors.cashmere300,
         tabBarStyle: {
-          height: 100,
+          height: 80,
           borderTopWidth: 1,
           padding: 0,
-          borderTopColor: Colors.surface600,
-          backgroundColor: Colors.surface100,
+          borderTopColor: Colors.rgba(Colors.bluewood400, 0.5),
+          backgroundColor: Colors.bluewood100,
         },
         headerShown: false,
         unmountOnBlur: true,
@@ -80,16 +76,5 @@ const BottomNavigator: React.FC = () => {
     </Tab.Navigator>
   );
 };
-
-const styles = StyleSheet.create({
-  iconContainer: {
-    width: 30,
-    height: 50,
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderBottomWidth: 1,
-    marginBottom: Spacings.s3,
-  },
-});
 
 export default BottomNavigator;

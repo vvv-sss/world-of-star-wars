@@ -25,10 +25,10 @@ const ListItem: React.FC<Props> = ({
       <TouchableOpacity
         style={styles.itemTitleContainer}
         onPress={() => handleTitlePress?.(item)}>
-        <Text text40T marginR-s3>
+        <Text text40T cashmere200 marginR-s3>
           {index}
         </Text>
-        <Text text40T marginR-s3>
+        <Text text40T cashmere200 marginR-s3>
           {title}
         </Text>
       </TouchableOpacity>

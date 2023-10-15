@@ -2,14 +2,13 @@ import React, {createContext, useEffect, useState} from 'react';
 import {DetailsTemplate} from '../components/templates';
 import {useNavigation, useRoute} from '@react-navigation/native';
 import {People} from '../types';
-import {useDispatch, useSelector} from 'react-redux';
-import {Dispatch, RootState} from '../setup/store/store';
+import {usePeople} from '../hooks';
 
 type DetailsContextValue = {
   data: People;
   isLoading: boolean;
+  error: string | null;
   isModalOpen: boolean;
-  // XXX complete handleRetryPress logic
   handleRetryPress: () => void;
   handleModalClose: () => void;
 };
@@ -26,30 +25,27 @@ const DetailsScreen: React.FC = () => {
   // XXX type is not inferred
   const {item} = route.params;
 
-  const isLoading = useSelector(
-    (state: RootState) => state.loading.effects.people.expandPeopleItem,
-  );
-
-  const dispatch = useDispatch<Dispatch>();
+  const {isExpandPeopleItemLoading, error, expendPeopleItem} = usePeople();
 
   const navigation = useNavigation();
 
   useEffect(() => {
     setIsModalOpen(true);
-
-    const expandItem = async () => {
-      const result = await dispatch.people.expandPeopleItem(item);
-
-      setItemExpanded(result);
-    };
-
     expandItem();
   }, []);
 
+  const expandItem = async () => {
+    const expandedItem = await expendPeopleItem(item);
+
+    setItemExpanded(expandedItem);
+  };
+
   const value: DetailsContextValue = {
     data: itemExpanded ?? {},
-    isLoading,
+    isLoading: isExpandPeopleItemLoading,
+    error,
     isModalOpen,
+    handleRetryPress: expandItem,
     handleModalClose: () => {
       setIsModalOpen(false);
       navigation.goBack();

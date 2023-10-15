@@ -92,6 +92,11 @@ export const people = createModel<RootModel>()({
 
       const {results, count, next, previous} = response.data;
 
+      if (results.length === 0) {
+        dispatch.people.setError('No results found');
+        return;
+      }
+
       const keyedPeople = convertArrayToKeyedObject<People>(results);
 
       dispatch.people.setData(keyedPeople);

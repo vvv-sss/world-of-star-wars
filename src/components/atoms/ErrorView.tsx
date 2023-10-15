@@ -27,11 +27,11 @@ const ErrorView: React.FC<Props> = ({
         marginTop: marginT,
         marginBottom: marginB,
       }}>
-      <Text text90 surface600>
+      <Text text90 cashmere200>
         {errorMessage}
       </Text>
       <TouchableOpacity onPress={handleRetryPress}>
-        <Text text40 primary300>
+        <Text text40 cashmere200>
           Retry
         </Text>
       </TouchableOpacity>

@@ -1,5 +1,5 @@
 import React, {useContext} from 'react';
-import {View, Text} from 'react-native-ui-lib';
+import {View, Text, Spacings, Colors} from 'react-native-ui-lib';
 import {StyleSheet, TouchableOpacity} from 'react-native';
 import {FavouritesList} from '../organisms';
 import {FavouritesContext} from '../../screens/FavouritesScreen';
@@ -16,26 +16,52 @@ const FavouritesTemplate: React.FC = () => {
   } = value || {};
 
   return (
-    <View flex bg-surface200 useSafeArea>
-      <View flex-2 padding-s4>
-        {favourites && favourites.length === 0 ? (
-          <View>
-            <Text text20BL>The list</Text>
-            <Text text20BL>is empty</Text>
-          </View>
-        ) : (
-          <TouchableOpacity onPress={handleResetTheListPress}>
-            <Text text20BL>Reset</Text>
-            <Text text20BL>the list</Text>
-          </TouchableOpacity>
-        )}
-        <View right>
-          <Text text30BL>{maleCount} male</Text>
-          <Text text30BL>{femaleCount} female</Text>
-          <Text text30BL>{otherCount} other</Text>
+    <View flex bg-cashmere100 useSafeArea>
+      <View row spread centerV padding-s4>
+        <View flex>
+          {favourites && favourites.length === 0 ? (
+            <>
+              <Text text30BO bluewood100>
+                The list
+              </Text>
+              <Text text30BO bluewood100>
+                is empty
+              </Text>
+            </>
+          ) : (
+            <TouchableOpacity onPress={handleResetTheListPress}>
+              <Text text30BO bluewood100>
+                Tap here
+              </Text>
+              <Text text30BO bluewood100>
+                to Reset
+              </Text>
+              <Text text30BO bluewood100>
+                the list
+              </Text>
+            </TouchableOpacity>
+          )}
+        </View>
+        <View flex right>
+          <Text text30BO bluewood100>
+            {maleCount} male
+          </Text>
+          <Text text30BO bluewood100>
+            {femaleCount} female
+          </Text>
+          <Text text30BO bluewood100>
+            {otherCount} other
+          </Text>
         </View>
       </View>
-      <View flex-3>
+      <View style={styles.listContainer}>
+        {favourites && favourites.length === 0 && (
+          <View flex centerV paddingH-s4>
+            <Text text30M cashmere200 center>
+              Favorite characters await you to be added!
+            </Text>
+          </View>
+        )}
         <FavouritesList />
       </View>
     </View>
@@ -43,8 +69,13 @@ const FavouritesTemplate: React.FC = () => {
 };
 
 const styles = StyleSheet.create({
-  one: {},
-  two: {},
+  listContainer: {
+    flex: 1,
+    paddingTop: Spacings.s6,
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    backgroundColor: Colors.bluewood100,
+  },
 });
 
 export default FavouritesTemplate;

@@ -1,6 +1,6 @@
-import React, {useEffect} from 'react';
-import {Assets, Colors, Spacings, Typography} from 'react-native-ui-lib';
-import {Appearance, StyleSheet} from 'react-native';
+import React from 'react';
+import {Colors, Spacings} from 'react-native-ui-lib';
+import {StyleSheet} from 'react-native';
 import {theme} from './src/setup/theme';
 import {NavigationContainer} from '@react-navigation/native';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
@@ -12,12 +12,8 @@ import {Host} from 'react-native-portalize';
 
 function App(): JSX.Element {
   // Theme setup
-  Colors.loadSchemes(theme.colors);
+  Colors.loadColors(theme.colors);
   Spacings.loadSpacings(theme.spacings);
-
-  useEffect(() => {
-    Appearance.setColorScheme('dark');
-  }, []);
 
   return (
     <GestureHandlerRootView style={styles.gestureContainer}>

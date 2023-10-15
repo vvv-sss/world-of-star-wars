@@ -1,20 +1,30 @@
 import {useDispatch, useSelector} from 'react-redux';
 import {Dispatch, RootState} from '../setup/store/store';
-import {GetRequestPayload} from '../types';
+import {GetRequestPayload, People} from '../types';
 
 export const usePeople = () => {
-  const {data, totalCount, error} = useSelector(
+  const {data, nextPage, previousPage, totalCount, error} = useSelector(
     (state: RootState) => state.people,
   );
 
-  const isLoading = useSelector(
-    (state: RootState) => state.loading.models.people,
+  const isPeopleLoading = useSelector(
+    (state: RootState) => state.loading.effects.people.getPeople,
+  );
+
+  const isExpandPeopleItemLoading = useSelector(
+    (state: RootState) => state.loading.effects.people.expandPeopleItem,
   );
 
   const dispatch = useDispatch<Dispatch>();
 
   const getPeople = (payload: GetRequestPayload) => {
     dispatch.people.getPeople(payload);
+  };
+
+  const expendPeopleItem = async (item: People) => {
+    const result = await dispatch.people.expandPeopleItem(item);
+
+    return result;
   };
 
   const handleNextPagePress = () => {
@@ -33,10 +43,14 @@ export const usePeople = () => {
 
   return {
     data,
+    nextPage,
+    previousPage,
     totalCount,
-    isLoading,
+    isPeopleLoading,
+    isExpandPeopleItemLoading,
     error,
     getPeople,
+    expendPeopleItem,
     handleNextPagePress,
     handlePreviousPagePress,
     setDefaultPeopleState,

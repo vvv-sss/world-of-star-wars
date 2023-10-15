@@ -24,7 +24,7 @@ const HomeScreen: React.FC = () => {
   const {
     data: people,
     totalCount,
-    isLoading,
+    isPeopleLoading,
     error,
     getPeople,
     handleNextPagePress,
@@ -39,10 +39,7 @@ const HomeScreen: React.FC = () => {
   useEffect(() => {
     setDefaultPeopleState();
 
-    // XXX handle here with async storage
-    if (!people) {
-      getPeople({url: PEOPLE_URL.PEOPLE});
-    }
+    getPeople({url: PEOPLE_URL.PEOPLE});
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -50,7 +47,7 @@ const HomeScreen: React.FC = () => {
     people: Object.values(people ?? {}),
     favourites: favourites ?? {},
     totalCount,
-    isLoading,
+    isLoading: isPeopleLoading,
     error,
     handleListItemNamePress: navigateToDetailsScreen,
     handleListItemIconPress: toggleFavourite,

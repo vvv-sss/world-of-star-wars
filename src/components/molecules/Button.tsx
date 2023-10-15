@@ -1,66 +1,52 @@
 import React from 'react';
-import {Text, Spacings, Colors} from 'react-native-ui-lib';
+import {Colors} from 'react-native-ui-lib';
 import {StyleSheet, TouchableOpacity} from 'react-native';
 import {FontIcon} from '../atoms';
 
-const ICON_SIZE = 20;
+const ICON_SIZE = 24;
 
 type Props = {
-  title?: string;
   iconName?: string;
-  iconSize?: number;
-  iconColor?: string;
-  showIconSide?: 'left' | 'right';
+  toggleColors?: boolean;
   handleButtonPress?: () => void;
   disabled?: boolean;
 };
 
 const Button: React.FC<Props> = ({
-  title,
   iconName = 'arrow-right',
-  iconSize = ICON_SIZE,
-  iconColor = Colors.surface600,
-  showIconSide,
+  toggleColors = false,
   handleButtonPress,
   disabled = false,
 }) => {
   return (
     <TouchableOpacity
-      style={styles.container}
+      style={[
+        styles.container,
+        {
+          backgroundColor: toggleColors
+            ? Colors.cashmere100
+            : Colors.bluewood100,
+        },
+      ]}
       onPress={handleButtonPress}
       disabled={disabled}>
-      {showIconSide === 'left' && (
-        <FontIcon name={iconName} size={iconSize} color={iconColor} />
-      )}
-      {title && (
-        <Text
-          text70
-          // eslint-disable-next-line react-native/no-inline-styles
-          style={{
-            marginLeft: showIconSide === 'left' ? Spacings.s2 : 0,
-            marginRight: showIconSide === 'right' ? Spacings.s2 : 0,
-          }}>
-          {title}
-        </Text>
-      )}
-      {showIconSide === 'right' && (
-        <FontIcon name={iconName} size={ICON_SIZE} color={iconColor} />
-      )}
+      <FontIcon
+        name={iconName}
+        size={ICON_SIZE}
+        color={toggleColors ? Colors.bluewood100 : Colors.cashmere200}
+      />
     </TouchableOpacity>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    alignSelf: 'flex-start',
-    paddingHorizontal: Spacings.s4,
-    paddingVertical: Spacings.s2,
+    width: ICON_SIZE * 2,
+    height: ICON_SIZE * 2,
     borderRadius: 99,
-    borderWidth: 1,
-    borderColor: Colors.surface600,
-    backgroundColor: Colors.primary600,
+    alignSelf: 'flex-start',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 

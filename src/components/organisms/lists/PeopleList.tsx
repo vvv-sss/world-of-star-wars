@@ -33,7 +33,7 @@ const PeopleList: React.FC = () => {
                 <FontIcon
                   name={isFavorite ? 'heart-filled' : 'heart-stroked'}
                   size={24}
-                  color={isFavorite ? Colors.surface500 : Colors.surface600}
+                  color={Colors.cashmere200}
                 />
               }
               handleTitlePress={handleListItemNamePress}
@@ -43,7 +43,7 @@ const PeopleList: React.FC = () => {
               <View
                 width="100%"
                 height={1}
-                backgroundColor={Colors.rgba(Colors.surface600, 0.25)}
+                backgroundColor={Colors.rgba(Colors.bluewood400, 0.25)}
                 marginB-s2
               />
             )}
