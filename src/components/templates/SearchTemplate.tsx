@@ -1,11 +1,17 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import {View, Text} from 'react-native-ui-lib';
 import {StyleSheet} from 'react-native';
+import { SearchContext } from '../../screens/SearchScreen';
+import { SearchList } from '../organisms';
 
 const SearchTemplate: React.FC = () => {
+  const value = useContext(SearchContext);
+  
   return (
     <View flex bg-surface100>
-      <Text>SearchTemplate</Text>
+      <View flex>
+        <SearchList />
+      </View>
     </View>
   );
 };

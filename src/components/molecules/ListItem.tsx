@@ -5,7 +5,7 @@ import {People} from '../../types';
 
 type Props = {
   item: People;
-  index: number;
+  index: number | string;
   title: string;
   icon: React.ReactNode;
   handleTitlePress?: (item: People) => void;
@@ -26,7 +26,7 @@ const ListItem: React.FC<Props> = ({
         style={styles.itemTitleContainer}
         onPress={() => handleTitlePress?.(item)}>
         <Text text40T marginR-s3>
-          {index}.
+          {index}
         </Text>
         <Text text40T marginR-s3>
           {title}

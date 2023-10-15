@@ -29,7 +29,7 @@ const FavouritesScreen: React.FC = () => {
 
   const navigateToDetailsScreen = useNavigateToDetailsScreen();
 
-  const value = {
+  const value: FavouritesContextValue = {
     favourites: Object.values(data ?? {}),
     maleCount,
     femaleCount,

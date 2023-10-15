@@ -1,13 +1,12 @@
 import React, {useContext} from 'react';
-import {Colors, Spacings, View} from 'react-native-ui-lib';
+import {Colors, Spacings} from 'react-native-ui-lib';
 import {FlashList} from '@shopify/flash-list';
-import {extractIdFromUrl} from '../../../utils';
 import {FontIcon} from '../../atoms';
-import {HomeContext} from '../../../screens/HomeScreen';
 import {ListItem} from '../../molecules';
+import {SearchContext} from '../../../screens/SearchScreen';
 
-const PeopleList: React.FC = () => {
-  const value = useContext(HomeContext);
+const SearchList: React.FC = () => {
+  const value = useContext(SearchContext);
 
   const {people, favourites, handleListItemNamePress, handleListItemIconPress} =
     value || {};
@@ -27,7 +26,7 @@ const PeopleList: React.FC = () => {
           <>
             <ListItem
               item={item}
-              index={extractIdFromUrl(item.url) ?? ' '}
+              index={'>'}
               title={item.name}
               icon={
                 <FontIcon
@@ -39,14 +38,14 @@ const PeopleList: React.FC = () => {
               handleTitlePress={handleListItemNamePress}
               handleIconPress={handleListItemIconPress}
             />
-            {people && people.length - 1 !== index && (
+            {/* {people && people.length - 1 !== index && (
               <View
                 width="100%"
                 height={1}
                 backgroundColor={Colors.rgba(Colors.surface600, 0.25)}
                 marginB-s2
               />
-            )}
+            )} */}
           </>
         );
       }}
@@ -57,4 +56,4 @@ const PeopleList: React.FC = () => {
   );
 };
 
-export default PeopleList;
+export default SearchList;

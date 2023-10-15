@@ -9,6 +9,8 @@ type DetailsContextValue = {
   data: People;
   isLoading: boolean;
   isModalOpen: boolean;
+  // XXX complete handleRetryPress logic
+  handleRetryPress: () => void;
   handleModalClose: () => void;
 };
 
@@ -44,7 +46,7 @@ const DetailsScreen: React.FC = () => {
     expandItem();
   }, []);
 
-  const value = {
+  const value: DetailsContextValue = {
     data: itemExpanded ?? {},
     isLoading,
     isModalOpen,
