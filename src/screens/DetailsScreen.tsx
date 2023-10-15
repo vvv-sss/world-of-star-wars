@@ -21,6 +21,7 @@ const DetailsScreen: React.FC = () => {
 
   const route = useRoute();
 
+  // XXX type is not inferred
   const {item} = route.params;
 
   const isLoading = useSelector(

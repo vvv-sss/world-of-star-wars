@@ -3,40 +3,72 @@ import {People, PeopleRecord} from '../../../types';
 import {RootModel} from '.';
 
 type FavouritesState = {
-  favourites: PeopleRecord | null;
+  data: PeopleRecord | null;
+  maleCount: number;
+  femaleCount: number;
+  otherCount: number;
 };
 
 const initialState: FavouritesState = {
-  favourites: null,
+  data: null,
+  maleCount: 0,
+  femaleCount: 0,
+  otherCount: 0,
 };
 
 export const favourites = createModel<RootModel>()({
   state: initialState,
   reducers: {
-    setFavourite(state, payload: People) {
-      const item = state.favourites && state.favourites[payload.url];
+    setDefaultState() {
+      return initialState;
+    },
+    toggleFavourite(state, payload: People) {
+      const item = state.data && state.data[payload.url];
 
-      if (state.favourites && item) {
-        const {[payload.url]: _, ...rest} = state.favourites;
+      const isMale = payload?.gender === 'male';
+      const isFemale = payload?.gender === 'female';
+
+      if (state.data && item) {
+        const {[payload.url]: _, ...rest} = state.data;
 
         return {
           ...state,
-          favourites: rest,
+          data: rest,
+          maleCount:
+            isMale && state.maleCount > 0
+              ? state.maleCount - 1
+              : state.maleCount,
+          femaleCount:
+            isFemale && state.femaleCount > 0
+              ? state.femaleCount - 1
+              : state.femaleCount,
+          otherCount:
+            !isMale && !isFemale && state.otherCount > 0
+              ? state.otherCount - 1
+              : state.otherCount,
         };
-      } else if (state.favourites && !item) {
+      } else if (state.data && !item) {
         return {
           ...state,
-          favourites: {
-            ...state.favourites,
+          data: {
+            ...state.data,
             [payload.url]: payload,
           },
+          maleCount: isMale ? state.maleCount + 1 : state.maleCount,
+          femaleCount: isFemale ? state.femaleCount + 1 : state.femaleCount,
+          otherCount:
+            !isMale && !isFemale ? state.otherCount + 1 : state.otherCount,
         };
       } else {
         return {
           ...state,
-          favourites: {
+          data: {
             [payload.url]: payload,
           },
+          maleCount: isMale ? state.maleCount + 1 : state.maleCount,
+          femaleCount: isFemale ? state.femaleCount + 1 : state.femaleCount,
+          otherCount:
+            !isMale && !isFemale ? state.otherCount + 1 : state.otherCount,
         };
       }
     },

@@ -1,12 +1,12 @@
 import React, {useEffect} from 'react';
 import {HomeTemplate} from '../components/templates';
-import {useFavourites} from '../hooks';
 import {createContext} from 'react';
 import {People, PeopleRecord} from '../types';
 import {useNavigation} from '@react-navigation/native';
 import {Dispatch, RootState} from '../setup/store/store';
 import {useDispatch, useSelector} from 'react-redux';
 import {PEOPLE_URL} from '../setup/api/url';
+import { useFavourites, useNavigateToDetailsScreen } from '../hooks';
 
 type HomeContextValue = {
   people: People[];
@@ -24,19 +24,19 @@ type HomeContextValue = {
 export const HomeContext = createContext<HomeContextValue | null>(null);
 
 const HomeScreen: React.FC = () => {
-  const {favourites, handleFavourite} = useFavourites();
-
-  const navigation = useNavigation();
-
   const {data, totalCount, error} = useSelector(
     (state: RootState) => state.people,
   );
+
+  const {data: favourites, toggleFavourite} = useFavourites();
 
   const isLoading = useSelector(
     (state: RootState) => state.loading.models.people,
   );
 
   const dispatch = useDispatch<Dispatch>();
+
+  const navigateToDetailsScreen = useNavigateToDetailsScreen();
 
   useEffect(() => {
     if (!data) {
@@ -49,18 +49,14 @@ const HomeScreen: React.FC = () => {
     dispatch.people.getPeople({url: PEOPLE_URL.PEOPLE});
   };
 
-  const handleListItemNamePress = (item: People) => {
-    navigation.navigate('DetailsScreen', {item});
-  };
-
   const value = {
     people: Object.values(data ?? {}),
     favourites: favourites ?? {},
     totalCount,
     isLoading,
     error,
-    handleListItemNamePress,
-    handleListItemHeartIconPress: handleFavourite,
+    handleListItemNamePress: navigateToDetailsScreen,
+    handleListItemHeartIconPress: toggleFavourite,
     handleNextPress: () => {
       // @ts-ignore
       dispatch.people.getNextPage();

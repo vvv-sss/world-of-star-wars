@@ -20,14 +20,14 @@ const HomeTemplate: React.FC = () => {
   } = value || {};
 
   return (
-    <View flex bg-surface100 useSafeArea>
+    <View flex bg-surface200 useSafeArea>
       <View flex>
-        <View flex />
         <View style={styles.titleContainer}>
-          <Text text40 style={styles.title}>
+          <Text text30BL style={styles.title}>
             You've got a whopping {totalCount} movie characters to check out.
           </Text>
         </View>
+        <View flex />
         <View row centerV paddingH-s4 marginB-s4>
           <Button
             iconName="arrow-left"

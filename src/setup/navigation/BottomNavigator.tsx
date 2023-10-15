@@ -13,12 +13,11 @@ type IconItem = {
   color: string;
   size: number;
   focused: boolean;
-  iconContainerStyle?: {};
 };
 
 const BottomNavigator: React.FC = () => {
   const renderIcon = (data: IconItem) => {
-    const {name, color, size, iconContainerStyle, focused} = data;
+    const {name, color, size, focused} = data;
 
     return (
       <View
@@ -27,9 +26,7 @@ const BottomNavigator: React.FC = () => {
           // eslint-disable-next-line react-native/no-inline-styles
           {borderColor: focused ? Colors.surface600 : 'transparent'},
         ]}>
-        <View style={iconContainerStyle}>
-          <FontIcon name={name} color={color} size={size} />
-        </View>
+        <FontIcon name={name} color={color} size={size} />
       </View>
     );
   };
@@ -73,11 +70,10 @@ const BottomNavigator: React.FC = () => {
         options={{
           tabBarIcon: ({color, size, focused}) =>
             renderIcon({
-              name: 'favorites-1',
+              name: 'favorites-2',
               color,
-              size: 45,
+              size: 35,
               focused,
-              iconContainerStyle: styles.favoriteIconContainer,
             }),
         }}
       />
@@ -91,14 +87,8 @@ const styles = StyleSheet.create({
     height: 50,
     alignItems: 'center',
     justifyContent: 'center',
-    paddingBottom: Spacings.s1,
     borderBottomWidth: 1,
     marginBottom: Spacings.s3,
-  },
-  favoriteIconContainer: {
-    position: 'absolute',
-    top: 2,
-    left: -3,
   },
 });
 

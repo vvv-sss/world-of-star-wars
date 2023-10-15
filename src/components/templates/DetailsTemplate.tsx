@@ -7,7 +7,7 @@ import {StyleSheet} from 'react-native';
 import {DetailsContext} from '../../screens/DetailsScreen';
 import {FontIcon} from '../atoms';
 
-const ICON_SIZE = 100;
+const ICON_SIZE = 80;
 
 const DetailsTemplate: React.FC = () => {
   const value = useContext(DetailsContext);
@@ -51,7 +51,7 @@ const DetailsTemplate: React.FC = () => {
       <Modalize
         ref={modalRef}
         modalHeight={windowHeight * 0.75}
-        scrollViewProps={{showsHorizontalScrollIndicator: false}}
+        scrollViewProps={{showsVerticalScrollIndicator: false}}
         modalStyle={styles.modal}
         handleStyle={styles.handle}
         overlayStyle={styles.overlay}
@@ -75,7 +75,7 @@ const DetailsTemplate: React.FC = () => {
                 size={ICON_SIZE}
                 color={Colors.surface200}
               />
-              <View marginL-s4>
+              <View flex marginL-s4 right>
                 <Text text60 surface200>
                   Gender: {data.gender}
                 </Text>
@@ -84,8 +84,8 @@ const DetailsTemplate: React.FC = () => {
                 </Text>
               </View>
             </View>
-            <View row centerV right>
-              <View marginR-s4>
+            <View row centerV>
+              <View flex marginR-s4>
                 <Text text60 surface200>
                   Height: {data.height}
                 </Text>
@@ -124,6 +124,7 @@ const DetailsTemplate: React.FC = () => {
             {data.vehicles &&
               data.vehicles.length > 0 &&
               renderArrayOfNames('Vehicles', data.vehicles as string[])}
+            <View height={50} />
           </>
         )}
       </Modalize>
@@ -147,8 +148,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: Spacings.s4,
   },
   header: {
-    height: 50,
+    minHeight: 50,
   },
+
   divider: {
     width: '100%',
     borderBottomWidth: 1,

@@ -2,9 +2,9 @@ import React, {useContext} from 'react';
 import {Colors, Spacings, Text, View} from 'react-native-ui-lib';
 import {FlashList} from '@shopify/flash-list';
 import {StyleSheet, TouchableOpacity} from 'react-native';
-import {extractIdFromUrl} from '../../utils';
-import {FontIcon} from '../atoms';
-import {HomeContext} from '../../screens/HomeScreen';
+import {extractIdFromUrl} from '../../../utils';
+import {FontIcon} from '../../atoms';
+import {HomeContext} from '../../../screens/HomeScreen';
 
 const PeopleList: React.FC = () => {
   const value = useContext(HomeContext);
@@ -47,18 +47,24 @@ const PeopleList: React.FC = () => {
                 <FontIcon
                   name={isFavorite ? 'heart-filled' : 'heart-stroked'}
                   size={24}
-                  color={Colors.surface600}
+                  color={isFavorite ? Colors.surface500 : Colors.surface600}
                 />
               </TouchableOpacity>
             </View>
             {people && people.length - 1 !== index && (
-              <View width="100%" height={1} bg-surface600 marginB-s2 />
+              <View
+                width="100%"
+                height={1}
+                backgroundColor={Colors.rgba(Colors.surface600, 0.25)}
+                marginB-s2
+              />
             )}
           </>
         );
       }}
       estimatedItemSize={100}
       showsVerticalScrollIndicator={false}
+      contentContainerStyle={{paddingBottom: Spacings.s4}}
     />
   );
 };
