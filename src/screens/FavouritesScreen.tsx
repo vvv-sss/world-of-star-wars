@@ -9,7 +9,7 @@ type FavouritesContextValue = {
   femaleCount: number;
   otherCount: number;
   handleListItemNamePress: (item: People) => void;
-  handleListItemCrossPress: (item: People) => void;
+  handleListItemIconPress: (item: People) => void;
   handleResetTheListPress: () => void;
 };
 
@@ -35,7 +35,7 @@ const FavouritesScreen: React.FC = () => {
     femaleCount,
     otherCount,
     handleListItemNamePress: navigateToDetailsScreen,
-    handleListItemCrossPress: toggleFavourite,
+    handleListItemIconPress: toggleFavourite,
     handleResetTheListPress: resetFavourites,
   };
 

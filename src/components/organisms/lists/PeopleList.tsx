@@ -1,20 +1,16 @@
 import React, {useContext} from 'react';
-import {Colors, Spacings, Text, View} from 'react-native-ui-lib';
+import {Colors, Spacings, View} from 'react-native-ui-lib';
 import {FlashList} from '@shopify/flash-list';
-import {StyleSheet, TouchableOpacity} from 'react-native';
 import {extractIdFromUrl} from '../../../utils';
 import {FontIcon} from '../../atoms';
 import {HomeContext} from '../../../screens/HomeScreen';
+import {ListItem} from '../../molecules';
 
 const PeopleList: React.FC = () => {
   const value = useContext(HomeContext);
 
-  const {
-    people,
-    favourites,
-    handleListItemNamePress,
-    handleListItemHeartIconPress,
-  } = value || {};
+  const {people, favourites, handleListItemNamePress, handleListItemIconPress} =
+    value || {};
 
   return (
     <FlashList
@@ -29,28 +25,20 @@ const PeopleList: React.FC = () => {
 
         return (
           <>
-            <View style={styles.itemContainer}>
-              <TouchableOpacity
-                style={styles.itemNameContainer}
-                onPress={() => handleListItemNamePress?.(item)}>
-                <Text text40T marginR-s3>
-                  {extractIdFromUrl(item.url)}.
-                </Text>
-                <Text text40T marginR-s3>
-                  {item.name}
-                </Text>
-              </TouchableOpacity>
-              <View flex />
-              <TouchableOpacity
-                style={styles.heartIconContainer}
-                onPress={() => handleListItemHeartIconPress?.(item)}>
+            <ListItem
+              item={item}
+              index={extractIdFromUrl(item.url) ?? 0}
+              title={item.name}
+              icon={
                 <FontIcon
                   name={isFavorite ? 'heart-filled' : 'heart-stroked'}
                   size={24}
                   color={isFavorite ? Colors.surface500 : Colors.surface600}
                 />
-              </TouchableOpacity>
-            </View>
+              }
+              handleTitlePress={handleListItemNamePress}
+              handleIconPress={handleListItemIconPress}
+            />
             {people && people.length - 1 !== index && (
               <View
                 width="100%"
@@ -68,20 +56,5 @@ const PeopleList: React.FC = () => {
     />
   );
 };
-
-const styles = StyleSheet.create({
-  itemContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingHorizontal: Spacings.s4,
-  },
-  itemNameContainer: {
-    flexDirection: 'row',
-  },
-  heartIconContainer: {
-    alignItems: 'flex-end',
-  },
-});
 
 export default PeopleList;

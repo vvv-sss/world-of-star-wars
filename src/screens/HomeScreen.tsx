@@ -6,7 +6,7 @@ import {useNavigation} from '@react-navigation/native';
 import {Dispatch, RootState} from '../setup/store/store';
 import {useDispatch, useSelector} from 'react-redux';
 import {PEOPLE_URL} from '../setup/api/url';
-import { useFavourites, useNavigateToDetailsScreen } from '../hooks';
+import {useFavourites, useNavigateToDetailsScreen} from '../hooks';
 
 type HomeContextValue = {
   people: People[];
@@ -15,7 +15,7 @@ type HomeContextValue = {
   isLoading: boolean;
   error: string | null;
   handleListItemNamePress: (item: People) => void;
-  handleListItemHeartIconPress: (item: People) => void;
+  handleListItemIconPress: (item: People) => void;
   handleNextPress: () => void;
   handlePreviousPress: () => void;
   handleRetryPress: () => void;
@@ -56,7 +56,7 @@ const HomeScreen: React.FC = () => {
     isLoading,
     error,
     handleListItemNamePress: navigateToDetailsScreen,
-    handleListItemHeartIconPress: toggleFavourite,
+    handleListItemIconPress: toggleFavourite,
     handleNextPress: () => {
       // @ts-ignore
       dispatch.people.getNextPage();
