@@ -29,6 +29,7 @@ const HomeScreen: React.FC = () => {
     getPeople,
     handleNextPagePress,
     handlePreviousPagePress,
+    setDefaultPeopleState,
   } = usePeople();
 
   const {data: favourites, toggleFavourite} = useFavourites();
@@ -36,6 +37,9 @@ const HomeScreen: React.FC = () => {
   const navigateToDetailsScreen = useNavigateToDetailsScreen();
 
   useEffect(() => {
+    setDefaultPeopleState();
+
+    // XXX handle here with async storage
     if (!people) {
       getPeople({url: PEOPLE_URL.PEOPLE});
     }

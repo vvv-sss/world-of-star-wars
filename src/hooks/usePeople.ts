@@ -27,6 +27,10 @@ export const usePeople = () => {
     dispatch.people.getPreviousPage();
   };
 
+  const setDefaultPeopleState = () => {
+    dispatch.people.setDefaultState();
+  };
+
   return {
     data,
     totalCount,
@@ -35,5 +39,6 @@ export const usePeople = () => {
     getPeople,
     handleNextPagePress,
     handlePreviousPagePress,
+    setDefaultPeopleState,
   };
 };

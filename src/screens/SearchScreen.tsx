@@ -1,9 +1,7 @@
 import React, {createContext, useEffect, useState} from 'react';
 import {SearchTemplate} from '../components/templates';
 import {People, PeopleRecord} from '../types';
-import {useFavourites} from '../hooks';
-import {useDispatch, useSelector} from 'react-redux';
-import {Dispatch, RootState} from '../setup/store/store';
+import {useDebounce, useFavourites, usePeople} from '../hooks';
 import {PEOPLE_URL} from '../setup/api/url';
 
 type SearchContextValue = {
@@ -20,32 +18,34 @@ export const SearchContext = createContext<SearchContextValue | null>(null);
 
 const SearchScreen: React.FC = () => {
   const [query, setQuery] = useState<string>('');
+  const debouncedQuery = useDebounce(query, 500);
 
-  const {data, totalCount, error} = useSelector(
-    (state: RootState) => state.people,
-  );
+  const {
+    data: people,
+    isLoading,
+    error,
+    getPeople,
+    setDefaultPeopleState,
+  } = usePeople();
 
   const {data: favourites, toggleFavourite} = useFavourites();
 
-  const dispatch = useDispatch<Dispatch>();
-
   useEffect(() => {
+    setDefaultPeopleState();
+
     if (query.trim() !== '') {
-      getPeople();
+      getPeople({
+        url: PEOPLE_URL.PEOPLE,
+        configs: {params: {search: debouncedQuery}},
+      });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  const getPeople = () => {
-    dispatch.people.getPeople({
-      url: PEOPLE_URL.PEOPLE,
-      configs: {params: {search: query}},
-    });
-  };
+  }, [debouncedQuery]);
 
   const value: SearchContextValue = {
-    people: Object.values(data ?? {}),
+    people: Object.values(people ?? {}),
     favourites: favourites ?? {},
+    isLoading,
     handleListItemIconPress: toggleFavourite,
   };
 
