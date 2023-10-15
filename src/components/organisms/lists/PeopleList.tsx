@@ -36,7 +36,9 @@ const PeopleList: React.FC = () => {
                   color={Colors.cashmere200}
                 />
               }
-              handleTitlePress={handleListItemNamePress}
+              handleTitlePress={() =>
+                handleListItemNamePress?.({item, comingScreen: 'HomeScreen'})
+              }
               handleIconPress={handleListItemIconPress}
             />
             {people && people.length - 1 !== index && (

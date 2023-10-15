@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import {HomeTemplate} from '../components/templates';
 import {createContext} from 'react';
-import {People, PeopleRecord} from '../types';
+import {DetailsScreenParams, People, PeopleRecord} from '../types';
 import {PEOPLE_URL} from '../setup/api/url';
 import {useFavourites, useNavigateToDetailsScreen, usePeople} from '../hooks';
 
@@ -11,7 +11,7 @@ type HomeContextValue = {
   totalCount: number | null;
   isLoading: boolean;
   error: string | null;
-  handleListItemNamePress: (item: People) => void;
+  handleListItemNamePress: (data: DetailsScreenParams) => void;
   handleListItemIconPress: (item: People) => void;
   handleNextPress: () => void;
   handlePreviousPress: () => void;

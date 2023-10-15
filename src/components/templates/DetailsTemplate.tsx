@@ -155,7 +155,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.cashmere100,
   },
   overlay: {
-    backgroundColor: Colors.rgba(Colors.bluewood100, 0.75),
+    backgroundColor: Colors.rgba('#000000', 0.9),
   },
   children: {
     paddingTop: Spacings.s3,

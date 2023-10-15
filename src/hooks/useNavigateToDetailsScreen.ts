@@ -1,12 +1,11 @@
 import {useNavigation} from '@react-navigation/native';
-import {People} from '../types';
+import {DetailsScreenParams, DetailsScreenProps} from '../types';
 
 export const useNavigateToDetailsScreen = () => {
-  const navigation = useNavigation();
+  const navigation = useNavigation<DetailsScreenProps['navigation']>();
 
-  // XXX type is not inferred
-  const navigateToDetailsScreen = (item: People) => {
-    navigation.navigate('DetailsScreen', {item});
+  const navigateToDetailsScreen = (data: DetailsScreenParams) => {
+    navigation.navigate('DetailsScreen', data);
   };
 
   return navigateToDetailsScreen;

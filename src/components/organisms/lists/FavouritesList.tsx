@@ -30,7 +30,12 @@ const FavouritesList: React.FC = () => {
                   color={Colors.cashmere200}
                 />
               }
-              handleTitlePress={handleListItemNamePress}
+              handleTitlePress={() =>
+                handleListItemNamePress?.({
+                  item,
+                  comingScreen: 'FavouritesScreen',
+                })
+              }
               handleIconPress={handleListItemIconPress}
             />
             {favourites &&

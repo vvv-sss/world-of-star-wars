@@ -35,7 +35,9 @@ const SearchList: React.FC = () => {
                   color={Colors.cashmere200}
                 />
               }
-              handleTitlePress={handleListItemNamePress}
+              handleTitlePress={() =>
+                handleListItemNamePress?.({item, comingScreen: 'SearchScreen'})
+              }
               handleIconPress={handleListItemIconPress}
             />
           </View>

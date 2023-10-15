@@ -1,6 +1,6 @@
 import React, {createContext, useEffect, useState} from 'react';
 import {SearchTemplate} from '../components/templates';
-import {People, PeopleRecord} from '../types';
+import {DetailsScreenParams, People, PeopleRecord} from '../types';
 import {
   useDebounce,
   useFavourites,
@@ -20,7 +20,7 @@ type SearchContextValue = {
   handleSearchValueChange: (value: string) => void;
   handleArrowLeftPress: () => void;
   handleArrowRightPress: () => void;
-  handleListItemNamePress: (item: People) => void;
+  handleListItemNamePress: (data: DetailsScreenParams) => void;
   handleListItemIconPress: (item: People) => void;
   handleRetryPress: () => void;
 };

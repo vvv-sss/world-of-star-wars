@@ -1,6 +1,6 @@
 import React, {createContext} from 'react';
 import {FavouritesTemplate} from '../components/templates';
-import {People} from '../types';
+import {DetailsScreenParams, People} from '../types';
 import {useFavourites, useNavigateToDetailsScreen} from '../hooks';
 
 type FavouritesContextValue = {
@@ -8,7 +8,7 @@ type FavouritesContextValue = {
   maleCount: number;
   femaleCount: number;
   otherCount: number;
-  handleListItemNamePress: (item: People) => void;
+  handleListItemNamePress: (data: DetailsScreenParams) => void;
   handleListItemIconPress: (item: People) => void;
   handleResetTheListPress: () => void;
 };
