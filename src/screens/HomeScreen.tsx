@@ -4,6 +4,8 @@ import {createContext} from 'react';
 import {DetailsScreenParams, People, PeopleRecord} from '../types';
 import {PEOPLE_URL} from '../setup/api/url';
 import {useFavourites, useNavigateToDetailsScreen, usePeople} from '../hooks';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {FavouritesState} from '../setup/store/models/favourites';
 
 type HomeContextValue = {
   people: People[];
@@ -29,17 +31,32 @@ const HomeScreen: React.FC = () => {
     getPeople,
     handleNextPagePress,
     handlePreviousPagePress,
-    setDefaultPeopleState,
   } = usePeople();
 
-  const {data: favourites, toggleFavourite} = useFavourites();
+  const {
+    data: favourites,
+    setFavouritesState,
+    toggleFavourite,
+  } = useFavourites();
 
   const navigateToDetailsScreen = useNavigateToDetailsScreen();
 
   useEffect(() => {
-    setDefaultPeopleState();
+    const handleFavouritesState = async () => {
+      const json = await AsyncStorage.getItem('favourites');
 
-    getPeople({url: PEOPLE_URL.PEOPLE});
+      const payload: FavouritesState = json != null ? JSON.parse(json) : null;
+
+      if (payload) {
+        setFavouritesState(payload);
+      }
+    };
+
+    handleFavouritesState();
+
+    if (!people) {
+      getPeople({url: PEOPLE_URL.PEOPLE});
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

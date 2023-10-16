@@ -10,6 +10,7 @@ const SearchTemplate: React.FC = () => {
   const value = useContext(SearchContext);
 
   const {
+    resultsCount,
     searchValue,
     nextPage,
     previousPage,
@@ -20,6 +21,10 @@ const SearchTemplate: React.FC = () => {
     handleArrowRightPress,
     handleRetryPress,
   } = value || {};
+
+  const nextPageNumber = nextPage
+    ? nextPage.split('')[nextPage?.split('').length - 1]
+    : null;
 
   return (
     <View flex bg-cashmere100 useSafeArea>
@@ -36,7 +41,7 @@ const SearchTemplate: React.FC = () => {
             </Text>
           </View>
         )}
-        {isLoading && (
+        {isLoading && searchValue && (
           <Text text70 cashmere200 marginL-s4>
             Loading...
           </Text>
@@ -48,24 +53,38 @@ const SearchTemplate: React.FC = () => {
             handleRetryPress={handleRetryPress}
           />
         )}
-        <View row margin-s4>
-          {previousPage && (
-            <Button
-              iconName="arrow-left"
-              handleButtonPress={handleArrowLeftPress}
-              toggleColors
-            />
-          )}
-          <View width={Spacings.s4} />
-          {nextPage && (
-            <Button
-              iconName="arrow-right"
-              handleButtonPress={handleArrowRightPress}
-              toggleColors
-            />
+        <View row centerV spread margin-s4>
+          <View row>
+            {previousPage && searchValue && (
+              <Button
+                iconName="arrow-left"
+                handleButtonPress={handleArrowLeftPress}
+                toggleColors
+              />
+            )}
+            <View width={Spacings.s4} />
+            {nextPage && searchValue && (
+              <Button
+                iconName="arrow-right"
+                handleButtonPress={handleArrowRightPress}
+                toggleColors
+              />
+            )}
+          </View>
+          {resultsCount && (
+            <View>
+              {nextPageNumber && (
+                <Text text80BO cashmere200>
+                  Page: {parseInt(nextPageNumber, 10) - 1}
+                </Text>
+              )}
+              <Text text70 cashmere200>
+                Results: {resultsCount}
+              </Text>
+            </View>
           )}
         </View>
-        <SearchList />
+        {searchValue && <SearchList />}
       </View>
     </View>
   );

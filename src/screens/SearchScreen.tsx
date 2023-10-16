@@ -1,16 +1,14 @@
 import React, {createContext, useEffect, useState} from 'react';
 import {SearchTemplate} from '../components/templates';
 import {DetailsScreenParams, People, PeopleRecord} from '../types';
-import {
-  useDebounce,
-  useFavourites,
-  useNavigateToDetailsScreen,
-  usePeople,
-} from '../hooks';
+import {useDebounce, useFavourites, useNavigateToDetailsScreen} from '../hooks';
 import {PEOPLE_URL} from '../setup/api/url';
+import {useDispatch, useSelector} from 'react-redux';
+import {Dispatch, RootState} from '../setup/store/store';
 
 type SearchContextValue = {
-  people: People[];
+  results: People[];
+  resultsCount: number | null;
   favourites: PeopleRecord;
   searchValue: string;
   nextPage: string | null;
@@ -35,48 +33,60 @@ const SearchScreen: React.FC = () => {
     data: people,
     nextPage,
     previousPage,
-    isPeopleLoading,
+    totalCount,
     error,
-    getPeople,
-    setDefaultPeopleState,
-    handleNextPagePress,
-    handlePreviousPagePress,
-  } = usePeople();
+  } = useSelector((state: RootState) => state.search);
+
+  const isLoading = useSelector(
+    (state: RootState) => state.loading.effects.search.makeSearchRequest,
+  );
 
   const {data: favourites, toggleFavourite} = useFavourites();
 
   const navigateToDetailsScreen = useNavigateToDetailsScreen();
 
+  const dispatch = useDispatch<Dispatch>();
+
   useEffect(() => {
-    setDefaultPeopleState();
+    if (debouncedQuery.trim() === '') {
+      dispatch.search.setDefaultState();
+    }
 
     if (debouncedQuery.trim() !== '') {
-      getPeople({
-        url: PEOPLE_URL.PEOPLE,
-        configs: {params: {search: debouncedQuery}},
-      });
+      dispatch.search.setDefaultState();
+      makeSearch();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [debouncedQuery]);
 
+  const makeSearch = () => {
+    dispatch.search.makeSearchRequest({
+      url: PEOPLE_URL.PEOPLE,
+      configs: {params: {search: debouncedQuery}},
+    });
+  };
+
   const value: SearchContextValue = {
-    people: Object.values(people ?? {}),
+    results: Object.values(people ?? {}),
+    resultsCount: totalCount,
     favourites: favourites ?? {},
     searchValue: query,
     nextPage,
     previousPage,
-    isLoading: isPeopleLoading,
+    isLoading,
     error,
     handleSearchValueChange: setQuery,
-    handleArrowLeftPress: handlePreviousPagePress,
-    handleArrowRightPress: handleNextPagePress,
+    handleArrowLeftPress: () => {
+      // @ts-ignore
+      dispatch.search.getPreviousPage();
+    },
+    handleArrowRightPress: () => {
+      // @ts-ignore
+      dispatch.search.getNextPage();
+    },
     handleListItemNamePress: navigateToDetailsScreen,
     handleListItemIconPress: toggleFavourite,
-    handleRetryPress: () =>
-      getPeople({
-        url: PEOPLE_URL.PEOPLE,
-        configs: {params: {search: debouncedQuery}},
-      }),
+    handleRetryPress: makeSearch,
   };
 
   return (

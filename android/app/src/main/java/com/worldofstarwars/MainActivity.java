@@ -25,13 +25,18 @@ public class MainActivity extends ReactActivity {
    * (aka React 18) with two boolean flags.
    */
   @Override
-  protected ReactActivityDelegate createReactActivityDelegate() {
-    return new DefaultReactActivityDelegate(
-        this,
-        getMainComponentName(),
-        // If you opted-in for the New Architecture, we enable the Fabric Renderer.
-        DefaultNewArchitectureEntryPoint.getFabricEnabled());
-  }
+    protected ReactActivityDelegate createReactActivityDelegate() {
+        return new DefaultReactActivityDelegate(
+            this,
+            getMainComponentName(),
+            DefaultNewArchitectureEntryPoint.getFabricEnabled()
+        ) {
+            @Override
+            protected ReactRootView createRootView() {
+                return new RNGestureHandlerEnabledRootView(MainActivity.this);
+            }
+        };
+    }
 
   /**
    * Part of React Navigation initial setup. See https://reactnavigation.org/docs/getting-started
@@ -39,18 +44,5 @@ public class MainActivity extends ReactActivity {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(null);
-  }
-
-  /**
-   * Part of Modalize initial setup. See https://jeremybarbet.github.io/react-native-modalize/#/INSTALLATION
-   */
-  @Override
-  protected ReactActivityDelegate createReactActivityDelegate() {
-    return new ReactActivityDelegate(this, getMainComponentName()) {
-      @Override
-      protected ReactRootView createRootView() {
-       return new RNGestureHandlerEnabledRootView(MainActivity.this);
-      }
-    };
   }
 }

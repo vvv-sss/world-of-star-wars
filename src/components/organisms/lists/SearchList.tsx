@@ -8,12 +8,16 @@ import {SearchContext} from '../../../screens/SearchScreen';
 const SearchList: React.FC = () => {
   const value = useContext(SearchContext);
 
-  const {people, favourites, handleListItemNamePress, handleListItemIconPress} =
-    value || {};
+  const {
+    results,
+    favourites,
+    handleListItemNamePress,
+    handleListItemIconPress,
+  } = value || {};
 
   return (
     <FlashList
-      data={people}
+      data={results}
       keyExtractor={item => item.url}
       renderItem={({item}) => {
         let isFavorite = false;

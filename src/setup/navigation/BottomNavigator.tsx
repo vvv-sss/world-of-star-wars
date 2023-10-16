@@ -56,7 +56,7 @@ const BottomNavigator: React.FC = () => {
         name="SearchScreen"
         component={SearchScreen}
         options={{
-          tabBarIcon: ({color, size, focused}) =>
+          tabBarIcon: ({color, focused}) =>
             renderIcon({name: 'search', color, size: 30, focused}),
         }}
       />
@@ -64,7 +64,7 @@ const BottomNavigator: React.FC = () => {
         name="FavouritesScreen"
         component={FavouritesScreen}
         options={{
-          tabBarIcon: ({color, size, focused}) =>
+          tabBarIcon: ({color, focused}) =>
             renderIcon({
               name: 'favorites-2',
               color,

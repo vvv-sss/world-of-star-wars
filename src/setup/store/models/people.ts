@@ -87,15 +87,10 @@ export const people = createModel<RootModel>()({
 
       if ('error' in response) {
         dispatch.people.setError('Something went wrong...');
-        return;
+        return {error: 'Something went wrong...'};
       }
 
       const {results, count, next, previous} = response.data;
-
-      if (results.length === 0) {
-        dispatch.people.setError('No results found');
-        return;
-      }
 
       const keyedPeople = convertArrayToKeyedObject<People>(results);
 

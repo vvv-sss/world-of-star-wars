@@ -23,12 +23,7 @@ const FavouritesList: React.FC = () => {
               index={index + 1}
               title={item.name}
               icon={
-                // XXX add cross icon
-                <FontIcon
-                  name="arrow-right"
-                  size={24}
-                  color={Colors.cashmere200}
-                />
+                <FontIcon name="cross" size={24} color={Colors.cashmere200} />
               }
               handleTitlePress={() =>
                 handleListItemNamePress?.({

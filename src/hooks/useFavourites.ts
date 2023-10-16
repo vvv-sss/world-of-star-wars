@@ -1,6 +1,7 @@
 import {useDispatch, useSelector} from 'react-redux';
 import {Dispatch, RootState} from '../setup/store/store';
 import {People} from '../types';
+import {FavouritesState} from '../setup/store/models/favourites';
 
 export const useFavourites = () => {
   const {data, maleCount, femaleCount, otherCount} = useSelector(
@@ -9,12 +10,16 @@ export const useFavourites = () => {
 
   const dispatch = useDispatch<Dispatch>();
 
+  const setFavouritesState = (payload: FavouritesState) => {
+    dispatch.favourites.setState(payload);
+  };
+
   const toggleFavourite = (item: People) => {
     dispatch.favourites.toggleFavourite(item);
   };
 
   const resetFavourites = () => {
-    dispatch.favourites.setDefaultState();
+    dispatch.favourites.resetFavouritesState();
   };
 
   return {
@@ -22,6 +27,7 @@ export const useFavourites = () => {
     maleCount,
     femaleCount,
     otherCount,
+    setFavouritesState,
     toggleFavourite,
     resetFavourites,
   };
