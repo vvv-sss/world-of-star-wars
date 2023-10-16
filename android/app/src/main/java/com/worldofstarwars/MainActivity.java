@@ -25,18 +25,13 @@ public class MainActivity extends ReactActivity {
    * (aka React 18) with two boolean flags.
    */
   @Override
-    protected ReactActivityDelegate createReactActivityDelegate() {
-        return new DefaultReactActivityDelegate(
-            this,
-            getMainComponentName(),
-            DefaultNewArchitectureEntryPoint.getFabricEnabled()
-        ) {
-            @Override
-            protected ReactRootView createRootView() {
-                return new RNGestureHandlerEnabledRootView(MainActivity.this);
-            }
-        };
-    }
+  protected ReactActivityDelegate createReactActivityDelegate() {
+    return new DefaultReactActivityDelegate(
+        this,
+        getMainComponentName(),
+        // If you opted-in for the New Architecture, we enable the Fabric Renderer.
+        DefaultNewArchitectureEntryPoint.getFabricEnabled());
+  }
 
   /**
    * Part of React Navigation initial setup. See https://reactnavigation.org/docs/getting-started
